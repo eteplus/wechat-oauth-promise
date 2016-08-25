@@ -72,14 +72,14 @@ export default class WechatOAuthPromise {
     return new Promise((resolve, reject) => {
       request(options, (error, response, body) => {
         if (error) {
-          error.name = 'API' + error.name
+          error.name = `API ${error.name}`;
           reject(error);
         }
         if (body.errcode) {
           reject(handleError(body));
         }
         resolve(body);
-      })
+      });
     });
   }
 
@@ -89,18 +89,17 @@ export default class WechatOAuthPromise {
 
   checkAccessToken() {}
 
-  async getUserInfo(openid = '') {
+  getUserInfo() {
   }
 
   /**
-   * 保存AccessToken到文件中, 若跨进程或者跨机器级别获取AccessToken
-   * 可以保存到数据库中, 每个openid对应一个唯一的token
+   * 从文件中获取 AccessToken
    *
    * @param {string} [openid='']
    * @return {promise}
    */
   async [getToken](openid = '') {
-    if (openid === '' || !openid || openid == '123') {
+    if (openid === '' || !openid) {
       let error = new Error('Openid can\'t allow empty');
       return Promise.reject(error);
     }
@@ -114,7 +113,8 @@ export default class WechatOAuthPromise {
 
 
   /**
-   * Save AccessToken to File
+   * 保存AccessToken到文件中, 若跨进程或者跨机器级别获取AccessToken
+   * 可以保存到数据库中, 每个openid对应一个唯一的token
    *
    * @param {string} [openid='']
    * @param {json} token

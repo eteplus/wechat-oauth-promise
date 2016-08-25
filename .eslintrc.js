@@ -15,6 +15,9 @@ module.exports = {
     'no-console': 0,
     'arrow-body-style': 0,
     'comma-dangle': [2, 'never'],
-    'no-unused-vars': [2, {'vars': 'all', 'args': 'none'}]
+    'no-unused-vars': [2, {'vars': 'all', 'args': 'none'}],
+    'object-shorthand': [2, 'consistent'],
+    'no-param-reassign': [2, { 'props': false }],
+    'camelcase': 0
   }
 };
