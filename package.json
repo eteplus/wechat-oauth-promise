@@ -1,0 +1,48 @@
+{
+  "name": "wechat-oauth-promise",
+  "version": "0.0.1",
+  "description": "Wechat OAuth for ES6 & Promise",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js && node index.js",
+    "dev": "node ./dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eteplus/wechat-oauth-promise.git"
+  },
+  "keywords": [
+    "wechat",
+    "oauth",
+    "promise",
+    "es6",
+    "webpack"
+  ],
+  "author": "eteplus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eteplus/wechat-oauth-promise/issues"
+  },
+  "homepage": "https://github.com/eteplus/wechat-oauth-promise#readme",
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.12.0",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-es2015-loose": "^7.0.0",
+    "babel-preset-stage-1": "^6.13.0",
+    "babel-runtime": "^6.11.6",
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb-base": "^5.0.3",
+    "eslint-friendly-formatter": "^2.0.6",
+    "eslint-loader": "^1.5.0",
+    "eslint-plugin-import": "^1.14.0",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "request": "^2.74.0"
+  }
+}
