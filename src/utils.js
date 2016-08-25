@@ -18,12 +18,14 @@ export const writeFile = (fileName, data) => {
       if (error) {
         reject(error);
       }
-      resolve('Successed');
+      resolve('Succeed');
     });
   });
 };
 
-export const handleError = (error) => {
-
-}
-
+export const handleError = (data) => {
+  let error = new Error(data.errmsg);
+  error.name = 'APIError';
+  error.code = error.errcode;
+  return error;
+};

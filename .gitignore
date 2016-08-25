@@ -40,7 +40,7 @@ jspm_packages
 .DS_store
 
 /dist
-index.js
+test.js
 
 # editor
 .vscode
