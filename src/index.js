@@ -96,8 +96,8 @@ export default class WechatOAuthPromise {
   /**
    * 检验授权凭证（access_token）是否有效
    *
-   * @param {any} access_token 网页授权接口调用凭证
-   * @param {any} openid 用户的唯一标识
+   * @param {string} access_token 网页授权接口调用凭证
+   * @param {string} openid 用户的唯一标识
    * @return {promise}
    */
   authAccessToken(access_token, openid) {
@@ -117,8 +117,8 @@ export default class WechatOAuthPromise {
   /**
    * 获取用户信息（scope 需为 snsapi_userinfo)
    *
-   * @param {any} access_token 网页授权接口调用凭证 通过getAccessToken获得
-   * @param {any} openid 用户的唯一标识
+   * @param {string} access_token 网页授权接口调用凭证 通过getAccessToken获得
+   * @param {string} openid 用户的唯一标识
    * @param {string} [lang='zh_CN'] 返回国家地区语言版本 (zh_CN 简体 | zh_TW 繁体 | en 英语)
    * @return {promise}
    */
@@ -135,10 +135,6 @@ export default class WechatOAuthPromise {
       json: true
     };
     return handleRequest(options);
-  }
-
-  getUserInfoByCode(code) {
-
   }
 
   /**
@@ -171,7 +167,7 @@ export default class WechatOAuthPromise {
    * @return {promise}
    */
   async [saveToken](openid = '', token) {
-    if (openid === '') {
+    if (openid === '' || !openid) {
       let error = new Error('Openid can\'t allow empty');
       return Promise.reject(error);
     }
