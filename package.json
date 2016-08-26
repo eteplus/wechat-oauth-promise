@@ -4,7 +4,8 @@
   "description": "Wechat OAuth for ES6 & Promise",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --config webpack.config.js"
+    "dev": "webpack --progress --colors --watch --config ./config/webpack.base.conf.js",
+    "build": "webpack --progress --colors --config ./config/webpack.build.conf.js"
   },
   "repository": {
     "type": "git",
@@ -39,7 +40,8 @@
     "eslint-loader": "^1.5.0",
     "eslint-plugin-import": "^1.14.0",
     "json-loader": "^0.5.4",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-merge": "^0.14.1"
   },
   "dependencies": {
     "request": "^2.74.0"

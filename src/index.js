@@ -1,9 +1,8 @@
 import qs from 'querystring';
-import request from 'request';
 import {
   readFile,
   writeFile,
-  handleError
+  handleRequest
 } from './utils';
 
 const getToken = Symbol('getToken');
@@ -22,7 +21,7 @@ export default class WechatOAuthPromise {
    * @param {function} [saveTokenFn] 保存AccessToken的方法
    * @param {function} [getTokenFn] 获取AccessToken的方法
    */
-  constructor(appid = '', appsecret = '', saveTokenFn, getTokenFn) {
+  constructor(appid, appsecret, saveTokenFn, getTokenFn) {
     this.appid = appid;
     this.appsecret = appsecret;
     this.saveToken = typeof saveTokenFn === 'function' ? saveTokenFn : this[saveToken];
@@ -69,27 +68,77 @@ export default class WechatOAuthPromise {
       qs: params,
       json: true
     };
-    return new Promise((resolve, reject) => {
-      request(options, (error, response, body) => {
-        if (error) {
-          error.name = `API ${error.name}`;
-          reject(error);
-        }
-        if (body.errcode) {
-          reject(handleError(body));
-        }
-        resolve(body);
-      });
-    });
+    return handleRequest(options);
   }
 
-  refreshAccessToken() {
-
+  /**
+   * 刷新access_token
+   *
+   * @param {string} refresh_token 通过access_token获取到的refresh_token参数
+   * @return {promise}
+   */
+  refreshAccessToken(refresh_token) {
+    let url = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
+    let params = {
+      appid: this.appid,
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    };
+    let options = {
+      method: 'POST',
+      url: url,
+      qs: params,
+      json: true
+    };
+    return handleRequest(options);
   }
 
-  checkAccessToken() {}
+  /**
+   * 检验授权凭证（access_token）是否有效
+   *
+   * @param {any} access_token 网页授权接口调用凭证
+   * @param {any} openid 用户的唯一标识
+   * @return {promise}
+   */
+  authAccessToken(access_token, openid) {
+    let url = 'https://api.weixin.qq.com/sns/auth';
+    let params = {
+      access_token: access_token,
+      opeind: openid
+    };
+    let options = {
+      url: url,
+      qs: params,
+      json: true
+    };
+    return handleRequest(options);
+  }
 
-  getUserInfo() {
+  /**
+   * 获取用户信息（scope 需为 snsapi_userinfo)
+   *
+   * @param {any} access_token 网页授权接口调用凭证 通过getAccessToken获得
+   * @param {any} openid 用户的唯一标识
+   * @param {string} [lang='zh_CN'] 返回国家地区语言版本 (zh_CN 简体 | zh_TW 繁体 | en 英语)
+   * @return {promise}
+   */
+  getUserInfo(access_token, openid, lang = 'zh_CN') {
+    let url = 'https://api.weixin.qq.com/sns/userinfo';
+    let params = {
+      access_token: access_token,
+      opeind: openid,
+      lang: lang
+    };
+    let options = {
+      url: url,
+      qs: params,
+      json: true
+    };
+    return handleRequest(options);
+  }
+
+  getUserInfoByCode(code) {
+
   }
 
   /**

@@ -1,5 +1,5 @@
 import fs from 'fs';
-
+import request from 'request';
 
 export const readFile = (fileName) => {
   return new Promise((resolve, reject) => {
@@ -28,4 +28,19 @@ export const handleError = (data) => {
   error.name = 'APIError';
   error.code = error.errcode;
   return error;
+};
+
+export const handleRequest = (options) => {
+  return new Promise((resolve, reject) => {
+    request(options, (error, response, body) => {
+      if (error) {
+        error.name = `API ${error.name}`;
+        reject(error);
+      }
+      if (body.errcode) {
+        reject(handleError(body));
+      }
+      resolve(body);
+    });
+  });
 };

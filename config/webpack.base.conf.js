@@ -1,33 +1,35 @@
 var path = require('path');
 var projectRoot = path.resolve(__dirname, '../');
-var webpack = require('webpack');
+var config = require('./config.js');
 
 module.exports = {
   // 入口, 定义要打包的文件
   entry: {
-    'wechat-oauth-promise': ['./src/index.js']
+    [config.libraryName]: config.entryFile
   },
-  // 出口，定义打包输出的文件; 包括路径，文件名，还可能有运行时的访问路径（ publicPath ）参数
+  // 出口，定义打包输出的文件; 包括路径，文件名
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    library: 'wechat-oauth-promise',
+    path: path.resolve(__dirname, '../dist'),
+    library: config.libraryName,
     libraryTarget: 'umd',
     umdNamedDefine: true,
-    filename: '[name].js',
+    filename: config.base.outputFile,
   },
-  devtool: '#source-map',
-  // devtool: false,
+  devtool: config.base.devtool || '#source-map',
   target: 'node',
   // resolve: 定义能够被打包的文件，文件后缀名
   resolve: {
     extensions: ['', '.js'],
-    fallback: [path.join(__dirname, 'node_modules')],
+    fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-      'src': path.resolve(__dirname, 'src')
+      'src': path.resolve(__dirname, '../src')
     }
   },
   resolveLoader: {
-    fallback: [path.join(__dirname, 'node_modules')]
+    fallback: [path.join(__dirname, '../node_modules')]
+  },
+  externals: {
+    "request": "request"
   },
   // webpack 将所有的资源都看做是模块，而模块就需要加载器；
   // 主要定义一些loaders, 定义哪些后缀名的文件应该用哪些loader
@@ -60,12 +62,5 @@ module.exports = {
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
-  plugins: [
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   }
-    // }),
-    // new webpack.optimize.OccurenceOrderPlugin()
-  ]
+  plugins: config.base.plugins || []
 };
